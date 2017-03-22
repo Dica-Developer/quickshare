@@ -1,0 +1,37 @@
+{
+  "name": "quickshare",
+  "version": "0.0.1",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node_modules/.bin/electron .",
+    "build": "node_modules/.bin/electron-packager . quickshare --platform linux --arch x64 --out dist/ --ignore \"(^app|^dist|^node_modules/electron.*)\"",
+    "deb64": "node_modules/.bin/electron-installer-debian --src dist/quickshare-linux-x64/ --dest dist/installers/ --arch amd64"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dica-Developer/quickshare.git"
+  },
+  "keywords": [],
+  "author": "mschaaf",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Dica-Developer/quickshare/issues"
+  },
+  "homepage": "https://github.com/Dica-Developer/quickshare",
+  "dependencies": {
+    "blaze": ">=3.0.0",
+    "electron": ">=1.4.0",
+    "electron-json-storage": ">=2.0.0",
+    "font-awesome": ">=4.6.3",
+    "mousetrap": ">=1.6.0",
+    "polo": ">=0.8.1",
+    "riot": ">=2.6.2",
+    "root": "^3.1.0"
+  },
+  "devDependencies": {
+    "electron-installer-debian": ">=0.3.1",
+    "electron-packager": ">=8.1.0"
+  }
+}

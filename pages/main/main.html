@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Quickshare</title>
+    <link rel="stylesheet" href="../../node_modules/blaze/dist/blaze.min.css"></link> 
+    <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="main.css"></link> 
+  </head>
+  <body>
+    <div class="c-tabs">
+      <div class="c-tabs__headings">
+        <div id="nearbytab" onclick="changeTab('nearbytab', 'nearbycontent')" class="c-tab-heading c-tab-heading--active"><span style="text-decoration: underline;">N</span>earby devices</div>
+        <div id="receivedfilestab" onclick="changeTab('receivedfilestab', 'receivedfilescontent')" class="c-tab-heading c-tab-heading">Received <span style="text-decoration: underline;">F</span>iles</div>
+      </div>
+      <div id="nearbycontent" class="c-tabs__tab c-tabs__tab--active">
+        <nearbylist></nearbylist>
+      </div>
+      <div id="receivedfilescontent" class="c-tabs__tab">
+        <filelist></filelist>
+      </div>
+    </div>
+
+    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+    <script src="tags/filelist.tag" type="riot/tag"></script>
+    <script src="tags/nearbylist.tag" type="riot/tag"></script>
+    <script src="../../node_modules/riot/riot+compiler.min.js"></script>
+    <script>
+      require('./main.js');
+
+      // only ui logic follows here
+      function changeTab(tabId, contentId) {
+        document.querySelector('.c-tab-heading--active').classList.toggle('c-tab-heading--active');
+        document.querySelector('.c-tabs__tab--active').classList.toggle('c-tabs__tab--active');
+        document.getElementById(contentId).classList.toggle('c-tabs__tab--active');
+        document.getElementById(tabId).classList.toggle('c-tab-heading--active');
+      }
+
+      Mousetrap.bind(['alt+n'], function() {
+        document.getElementById('nearbytab').click();
+        return false;
+      });
+
+      Mousetrap.bind(['alt+f'], function() {
+        document.getElementById('receivedfilestab').click();
+        return false;
+      });
+    </script>
+  </body>
+
+</html>
