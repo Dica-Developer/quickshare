@@ -22,9 +22,10 @@
   "homepage": "https://github.com/Dica-Developer/quickshare",
   "dependencies": {
     "blaze": ">=3.0.0",
+    "busboy": "^0.2.14",
     "electron": ">=1.4.0",
     "electron-json-storage": ">=2.0.0",
-    "font-awesome": ">=4.6.3",
+    "font-awesome": ">=4.7.0",
     "mousetrap": ">=1.6.0",
     "polo": ">=0.8.1",
     "riot": ">=2.6.2",

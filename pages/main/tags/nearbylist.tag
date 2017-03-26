@@ -12,6 +12,8 @@
 
   <script>
     const polo = require('polo');
+    const request = require('request');
+    const fs = require('fs');
     const fileReceiver = polo();
     var that = this;
 
@@ -62,7 +64,17 @@
       event.preventDefault();
       if (inDropZone(event.target)) {
         for (let file of event.dataTransfer.files) {
-          console.log('File(s) you dragged here: ', file.path, getDropZoneNearby(event.target))
+          let receiver = getDropZoneNearby(event.target);
+          console.log('File(s) you dragged here: ', file.path, receiver);
+          var requestTo = request.post('http://' + receiver + '/upload', function (err, resp, body) {
+            if (err) {
+              console.error('Error!');
+            } else {
+              console.log('URL: ' + body);
+            }
+          });
+          var form = requestTo.form();
+          form.append('file', fs.createReadStream(file.path));
         }
       }
       return false;

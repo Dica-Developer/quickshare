@@ -1,8 +1,11 @@
 const exec = require('child_process').execFile;
 const storage = require('electron-json-storage');
 const polo = require('polo');
-var root = require('root');
-var os = require('os');
+const fs = require('fs');
+const root = require('root');
+const os = require('os');
+const path = require('path');
+const Busboy = require('busboy');
 
 const fileReceiverAnnouncement = polo();
 const fileReceiver = root();
@@ -10,15 +13,22 @@ const bus = riot.observable();
 riot.mount('filelist', { bus: bus });
 riot.mount('nearbylist', { bus: bus });
 
+const homeFolder = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+const appFolder = path.join(homeFolder, '.quickshare', 'received');
+
 fileReceiver.post('/upload', function(request, response) {
-    request.on('data', function(body) {
-      // TODO store parts of the file in temp file
-      console.log('got part of more parts')
-    });
-    request.on('end', function(body) {
-      // TODO finished to som clean up move to final location
-      response.send(body);
-    });
+  let busboy = new Busboy({ headers: request.headers });
+  busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+    console.log('Received file: ' + filename);
+    let saveTo = path.join(appFolder, filename);
+    file.pipe(fs.createWriteStream(saveTo));
+  });
+  busboy.on('finish', function() {
+    response.writeHead(200, { 'Connection': 'close' });
+    response.end();
+    bus.trigger('watch.activities.update');
+  });
+  return request.pipe(busboy);
 });
 
 fileReceiver.listen(0, function(address, server) { 
