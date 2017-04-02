@@ -14,7 +14,11 @@
     const polo = require('polo');
     const request = require('request');
     const fs = require('fs');
-    const fileReceiver = polo();
+    const fileReceiver = polo({
+      multicast: true,
+      monitor: false,
+      heartbeat: 60000
+    });
     var that = this;
 
     this.nearbies = [];
@@ -29,6 +33,10 @@
 
     fileReceiver.on('dica-developer.quickshare/down', function(service) {
       console.info('Service gone:', service);
+      that.nearbies = that.nearbies.filter(nearby => service.address != nearby.address);
+      that.update({
+        nearbies: that.nearbies
+      });
     });
 
     function inDropZone(startElement) {

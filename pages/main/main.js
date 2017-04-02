@@ -7,7 +7,11 @@ const os = require('os');
 const path = require('path');
 const Busboy = require('busboy');
 
-const fileReceiverAnnouncement = polo();
+const fileReceiverAnnouncement = polo({
+  multicast: true,
+  monitor: false,
+  heartbeat: 60000
+});
 const fileReceiver = root();
 const bus = riot.observable();
 riot.mount('filelist', { bus: bus });
