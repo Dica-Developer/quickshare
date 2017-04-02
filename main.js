@@ -70,9 +70,9 @@ const menuTemplate = [
   }
 ];
 let menu = Menu.buildFromTemplate(menuTemplate);
-Menu.setApplicationMenu(menu);
 
 function createWindow () {
+  Menu.setApplicationMenu(menu);
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
   mainWindow.loadURL(`file://${__dirname}/pages/main/main.html`);
